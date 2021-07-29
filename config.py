@@ -1,0 +1,3 @@
+SERVER_IP = "0.0.0.0"
+SERVER_PORT = "5000"
+BASE_URI = f"http://{SERVER_IP}:{SERVER_PORT}/api/people"
