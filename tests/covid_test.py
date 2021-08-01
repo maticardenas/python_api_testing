@@ -5,6 +5,7 @@ from assertpy import assert_that
 
 from config import COVID_TRACKER_HOST
 from utils.print_helpers import pretty_print
+from utils.xml_utils import get_xml_etree
 
 
 def test_covid_cases_have_crossed_a_million():
@@ -13,7 +14,7 @@ def test_covid_cases_have_crossed_a_million():
     pretty_print(response.headers)
 
     response_xml = response.text
-    xml_tree = etree.fromstring(bytes(response_xml, encoding='utf8'))
+    xml_tree = get_xml_etree(response_xml)
 
     # use .xpath on xml_tree object to evaluate the expression
     total_cases = xml_tree.xpath("//data/summary/total_cases")[0].text
@@ -26,7 +27,7 @@ def test_overall_covid_cases_match_sum_of_total_cases_by_country():
     pretty_print(response.headers)
 
     response_xml = response.text
-    xml_tree = etree.fromstring(bytes(response_xml, encoding='utf8'))
+    xml_tree = get_xml_etree(response_xml)
 
     overall_cases = int(xml_tree.xpath("//data/summary/total_cases")[0].text)
     # Another way to specify XPath first and then use to evaluate
