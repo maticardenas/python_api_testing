@@ -9,7 +9,7 @@ from config import BASE_URI
 from utils.json_utils import get_prop_from_str_payload
 
 
-def create_person_with_unique_last_name(body: Optional[Dict[str, str]] = None):
+def create_person_with_unique_last_name(body: Optional[Dict[str, str]] = None) -> str:
     payload = _get_person_payload(body)
     unique_last_name = get_prop_from_str_payload(payload, "lname")
     # Setting default headers to show that the client accepts json
