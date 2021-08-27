@@ -41,4 +41,4 @@ def _get_person_payload(body: Dict[str, Any]) -> Dict[str, Any]:
 
 
 def search_created_user_in(peoples: Dict[str, str], last_name: str) -> List[Dict[str, str]]:
-    return [person for person in peoples if person['lname'] == last_name]
+    return [person for person in peoples if person['lname'] == last_name][0]
