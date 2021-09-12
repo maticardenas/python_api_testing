@@ -36,14 +36,16 @@ class PeopleClient(BaseClient):
         return last_name, response
 
     def read_one_person_by_id(self, person_id: int) -> "Response":
-        pass
+        url = f'{self.base_url}/{person_id}'
+        return self.request.get(url)
 
     def read_all_persons(self) -> "Response":
         return self.request.get(self.base_url)
 
-    def update_person(self) -> "Response":
-        pass
+    def update_person(self, person_id: int, payload: Dict[str, str]) -> "Response":
+        url = f'{self.base_url}/{person_id}'
+        return self.request.put(url, payload, self.headers)
 
     def delete_person(self, person_id: int) -> "Response":
-        url = f'{BASE_URI}/{person_id}'
+        url = f'{self.base_url}/{person_id}'
         return self.request.delete(url)

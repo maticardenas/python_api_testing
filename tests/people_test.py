@@ -1,4 +1,6 @@
+from json import dumps
 from typing import Dict
+from uuid import uuid4
 
 import requests
 from assertpy.assertpy import assert_that
@@ -36,6 +38,28 @@ def test_created_person_can_be_deleted():
 
     response = client.delete_person(new_person_id)
     assert_that(response.status_code).is_equal_to(requests.codes.ok)
+
+
+def test_udpate_person():
+    # given
+    persons_last_name, _ = client.create_person()
+    peoples = client.read_all_persons().as_dict
+    new_person_id = search_created_user_in(peoples, persons_last_name)['person_id']
+
+    new_person_data = {
+        "fname": "NewTestName",
+        "lname": f"New TestLastName {str(uuid4())}"
+    }
+
+    # when
+    response = client.update_person(new_person_id, dumps(new_person_data))
+
+    # then
+    assert_that(response.status_code).is_equal_to(requests.codes.ok)
+    updated_person_data_response = client.read_one_person_by_id(new_person_id)
+    assert_that(updated_person_data_response.status_code).is_equal_to(requests.codes.ok)
+    assert_that(updated_person_data_response.as_dict).has_fname(new_person_data["fname"])
+    assert_that(updated_person_data_response.as_dict).has_lname(new_person_data["lname"])
 
 
 def test_person_can_be_added_with_a_json_template(create_data: Dict[str, str]):
