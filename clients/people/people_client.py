@@ -4,7 +4,6 @@ from uuid import uuid4
 
 from clients.people.base_client import BaseClient
 from config import BASE_URI
-from utils import request
 from utils.request import APIRequest
 
 if TYPE_CHECKING:

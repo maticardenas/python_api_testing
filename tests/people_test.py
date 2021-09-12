@@ -1,16 +1,12 @@
-from json import dumps, loads
-from uuid import uuid4
+from typing import Dict
 
 import requests
-from assertpy.assertpy import assert_that, soft_assertions
-from jsonpath_ng import parse
+from assertpy.assertpy import assert_that
 
 from clients.people.people_client import PeopleClient
-from config import BASE_URI
 from tests.assertions.people_assertions import assert_people_have_person_with_first_name, assert_person_is_present
 from tests.helpers.people_helpers import search_nodes_using_json_path
-from tests.utils.people_utils import create_person_with_unique_last_name, search_created_user_in
-
+from tests.utils.people_utils import search_created_user_in
 
 
 client = PeopleClient()
@@ -42,7 +38,7 @@ def test_created_person_can_be_deleted():
     assert_that(response.status_code).is_equal_to(requests.codes.ok)
 
 
-def test_person_can_be_added_with_a_json_template(create_data):
+def test_person_can_be_added_with_a_json_template(create_data: Dict[str, str]):
     client.create_person(create_data)
 
     response = client.read_all_persons()
